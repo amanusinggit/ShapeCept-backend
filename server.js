@@ -50,7 +50,9 @@ app.get("/private", jwtCheck, (req, res) => {
 });
 
 app.post("/generateCourse", jwtCheck, async (req, res) => {
-  const email = req.auth.payload[EMAIL];
+  const email = req.body.auth.payload[EMAIL];
+  // const email = req.body.auth.payload.email;
+  console.log("email", email);
   const userId = await User.getUserId(email);
   const { prompt } = req.body;
   const session = await mongoose.startSession();
@@ -126,6 +128,7 @@ app.post("/generateCourse", jwtCheck, async (req, res) => {
     res.status(200).json({ message: "Course created successfully." });
   } catch (error) {
     session.abortTransaction();
+    console.log(error.message);
     res.json({
       message: "It's not you, it's us. Please Try Again.",
     });
