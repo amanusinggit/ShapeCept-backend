@@ -50,7 +50,8 @@ app.get("/private", jwtCheck, (req, res) => {
 });
 
 app.post("/generateCourse", jwtCheck, async (req, res) => {
-  const email = req.body.auth.payload[EMAIL];
+  console.log(req);
+  const email = req.auth.payload[EMAIL];
   // const email = req.body.auth.payload.email;
   console.log("email", email);
   const userId = await User.getUserId(email);
